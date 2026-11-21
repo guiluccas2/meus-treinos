@@ -155,10 +155,10 @@ export default function Today() {
           );
         })}
       </div>
-      <div className="row gap8 between" style={{ marginTop: -4 }}>
-        <button className="btn sm ghost" onClick={() => setSel(addDays(sel, -7))}>‹ Semana anterior</button>
+      <div className="row gap8 between weeknav" style={{ marginTop: -4 }}>
+        <button className="btn sm ghost" onClick={() => setSel(addDays(sel, -7))}>‹ Anterior</button>
         {sel !== today && <button className="btn sm ghost" onClick={() => setSel(today)}>Hoje</button>}
-        <button className="btn sm ghost" onClick={() => setSel(addDays(sel, 7))}>Próxima semana ›</button>
+        <button className="btn sm ghost" onClick={() => setSel(addDays(sel, 7))}>Próxima ›</button>
       </div>
 
       <div className="day-list">
