@@ -4,6 +4,7 @@ import { exerciseHistory, fmtDate } from '../model.js';
 import { MAX_VIDEO_MB, removeFile, saveAnimation, saveVideo } from '../media.js';
 import { Empty, ExerciseMedia, Field, Icon, go, youtubeEmbed } from '../components/ui.jsx';
 import AnimationPlayer from '../components/AnimationPlayer.jsx';
+import { lazyImport } from '../update.js';
 import { usageOf } from './Library.jsx';
 
 export const parseTime = (v) => {
@@ -25,6 +26,9 @@ function AnimationMaker({ exercise, onDone }) {
   const [err, setErr] = useState('');
   const vref = useRef(null);
   useEffect(() => () => url && URL.revokeObjectURL(url), [url]);
+  useEffect(() => {
+    lazyImport(() => import('../pose.js')).catch(() => {});
+  }, []);
 
   const choose = (f) => {
     if (!f) return;
@@ -38,7 +42,7 @@ function AnimationMaker({ exercise, onDone }) {
     setErr('');
     setResult(null);
     try {
-      const { videoToAnimation } = await import('../pose.js');
+      const { videoToAnimation } = await lazyImport(() => import('../pose.js'));
       const anim = await videoToAnimation(file, { start: range.start || 0, end: range.end, onProgress: (p, msg) => setProg({ p, msg }) });
       setResult(anim);
     } catch (e) {

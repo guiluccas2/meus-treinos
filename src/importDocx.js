@@ -9,8 +9,11 @@ import { uid, norm, methodForCount, WORKOUT_COLORS } from './model.js';
 const SEP = /\s+[-–—]{1,2}\s+/;
 const EX_LINE = /^([A-Z]{1,2})[.)]\s*(.+)$/;
 
+import { lazyImport } from './update.js';
+
 export async function docxToText(file) {
-  const mammoth = (await import('mammoth/mammoth.browser.js')).default || (await import('mammoth/mammoth.browser.js'));
+  const mod = await lazyImport(() => import('mammoth/mammoth.browser.js'));
+  const mammoth = mod.default || mod;
   const res = await mammoth.extractRawText({ arrayBuffer: await file.arrayBuffer() });
   return res.value;
 }
